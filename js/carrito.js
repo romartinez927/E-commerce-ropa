@@ -6,12 +6,12 @@ const formularioCompra = document.querySelector("#formularioCompra")
 const carritoHeader = document.querySelector("#carritoHeader")
 const form = document.querySelector("#form")
 
+
 //Función para visualizar los productos que se encuentran en el carrito
 const verCarrito = () => {
 
+    // formularioCompra.innerHTML = ""
     contenedorCarrito.innerHTML = ""
-
-
 
     if (productosEnCarrito && productosEnCarrito.length > 0) {
         
@@ -32,7 +32,7 @@ const verCarrito = () => {
                 `
             
             contenedorCarrito.append(contenidoDelCarrito)
-            
+        
 
             let restar = contenidoDelCarrito.querySelector(".restar")
     
@@ -65,81 +65,6 @@ const verCarrito = () => {
         montoTotalCompra.innerHTML = ""
     }
 
-    if (productosEnCarrito && productosEnCarrito.length > 0) {
-        let finalizarCompraaa = document.createElement("div")
-        finalizarCompraaa.className = "finalizarCompraaa"
-        finalizarCompraaa.innerHTML = `<button class="finalizarCompraBtn">Realizar compra</button>`
-    
-        contenedorCarrito.append(finalizarCompraaa)
-
-        let finalizarCompra = contenedorCarrito.querySelector(".finalizarCompraaa")
-
-        finalizarCompra.addEventListener("click", () => {
-            // localStorage.clear()
-            // verCarrito()
-            contenedorCarrito.innerText = ""
-            montoTotalCompra.innerText = ""
-            carritoHeader.innerText = ""
-
-            let datos = document.createElement("div")
-            datos.className = "datosEmail"
-            datos.innerHTML = `<div class="form-header">
-                                    <h3>DATOS DE CONTACTO</h1>
-                                </div>
-                                <div>
-                                    <label for="email" class="form-label">Ingresa tu email para continuar la compra</label>
-                                    <input type="text" id="email" class="form-input" placeholder="Email">
-                                    <button>Volver al carrito</button>
-                                    <button class="continuarCompra">Continuar</button>
-                                </div>`
-
-            form.append(datos)
-
-            let continuarCompra = document.querySelector(".continuarCompra")
-
-            continuarCompra.addEventListener("click", () => {
-                datos.innerHTML = ""
-
-                let datosDos = document.createElement("div")
-                datosDos.className = "datos-pt2"
-                datosDos.innerHTML = `<h3>ELIGE COMO OBTENER TU PEDIDO</h3>
-                                  <input type="radio" id="enviarPedido" name="retiroPedido" value="enviarPedido" />
-                                  <label for="enviarPedido">Enviar mi pedido</label>
-
-                                  <input type="radio" id="retiroLocal" name="retiroPedido" value="retiroLocal" />
-                                  <label for="retiroLocal">Retiro en local</label>
-                                  <button>Volver al carrito</button>
-                                  <button class="continuarCompraDos">Continuar</button>`
-
-                form.append(datosDos)
-
-                let continuarCompraDos = document.querySelector(".continuarCompraDos")
-
-                continuarCompraDos.addEventListener("click", () => {
-                    datosDos.innerHTML = ""
-
-                    let datosTres = document.createElement("div")
-                    datosTres.className = "datos-pt3"
-                    datosTres.innerHTML = `<div>
-                                                <h3>OPCIONES DE PAGO</h3>
-                                                <input type="radio" id="mercadoPago" name="mercadoPago" value="mercadoPago" />
-                                                <label for="mercadoPago">MercadoPago</label>
-                                                <p>Te redireccionaremos al sitio seguro de MercadoPago para que finalices tu compra. Podrás pagar con tarjetas de crédito y en efectivo en puntos de pago.</p>
-                                            </div>
-                                            <div>
-                                                <h4>COMENTARIOS ADICIONALES</h4>
-                                                <textarea></textarea>
-                                            </div>
-                                            <button>Volver al carrito</button>
-                                            <button class="continuarCompraDos">Finalizar Compra</button>`
-                    
-                    form.append(datosTres)
-                })
-            })
-})
-
-        
-    }
 }
 
 //Eliminar productos
@@ -169,11 +94,192 @@ if (productosEnCarrito && productosEnCarrito.length > 0) {
 }
 
 
+const procesoDeCompra = () => {
+    if (productosEnCarrito && productosEnCarrito.length > 0) {
+        let realizarCompra  = document.createElement("div")
+        realizarCompra.className = "realizarCompra"
+        realizarCompra.innerHTML = `<button class="realizarCompraBtn">Realizar compra</button>`
+    
+        contenedorCarrito.append(realizarCompra)
 
-const verForm = () => {
-    contenedorCarrito.innerText = ""
-    montoTotalCompra.innerText = ""
-    carritoHeader.innerText = ""
+        let realizarCompraBtn = contenedorCarrito.querySelector(".realizarCompraBtn")
 
+        realizarCompraBtn.addEventListener("click", () => {
+            contenedorCarrito.innerHTML = ""
+            montoTotalCompra.innerHTML = ""
+            carritoHeader.innerHTML = ""
+
+            let datosDelUsuario = document.createElement("div")
+            datosDelUsuario.className = "SeccionUno"
+            datosDelUsuario.innerHTML = `<div class="form-header">
+                                            <h3>DATOS DE CONTACTO</h1>
+                                        </div>
+                                        <div>
+                                            <label for="email" class="form-label">Ingresa tu email para continuar la compra</label>
+                                            <input type="text" id="email" class="form-input" placeholder="Email">
+                                            
+                                            <button class="volverCarrito">Volver al carrito</button>
+                                            <button class="continuarSeccionDos">Continuar</button>
+                                        </div>`
+
+            form.append(datosDelUsuario)
+
+            
+
+
+
+            let volverCarrito = document.querySelector(".volverCarrito")
+            volverCarrito.addEventListener("click", () => {
+                verCarrito()
+                procesoDeCompra()
+                datosDelUsuario.innerHTML = ""
+            })
+            let continuarSeccionDos = document.querySelector(".continuarSeccionDos")
+
+            continuarSeccionDos.addEventListener("click", () => {
+                let email = document.querySelector("#email").value
+                localStorage.setItem("emailUsuario", email) 
+                
+                datosDelUsuario.innerHTML = ""
+
+                let datosSeccionDos = document.createElement("div")
+                datosSeccionDos.className = "seccionDos"
+                datosSeccionDos.innerHTML = `<div>
+                                                <h1>ELIGE COMO OBTENER TU PEDIDO</h1>
+                                            </div>
+                                            <div class="acordeon">
+                                                <div class="bloque activo">
+                                                    <input type="radio" id="enviarPedido" class="opcionDeEntrega" name="entregaPedido" value="enviarPedido" />
+                                                    <label for="enviarPedido">Enviar mi pedido</label>
+                                                    <div class="contenido">
+                                                        <h3>DOMICILIO DE ENTREGA</h3>
+                                                        <p>Datos de quien recibe</p>
+                                                        <input type="text" id="name" class="form-input" placeholder="Nombre">
+                                                        <input type="text" id="lastName" class="form-input" placeholder="Apellido">
+                                                        <input type="text" id="telefono" class="form-input" placeholder="Teléfono">
+
+                                                        <p>Domicilio de entrega</p>
+                                                        <input type="text" id="pais" class="form-input" placeholder="Argentina">
+                                                        <select name="localidad">
+                                                            <option data="01" value="Buenos Aires">Buenos Aires</option>
+                                                            <option data="02" value="Gran Buenos Aires">Gran Buenos Aires</option>
+                                                            <option data="03" value="Ciudad Autónoma de Buenos Aires">Ciudad Autónoma de Buenos Aires</option>
+                                                            <option data="04" value="Catamarca">Catamarca</option>
+                                                            <option data="05" value="Chaco">Chaco</option>
+                                                            <option data="06" value="Chubut">Chubut</option>
+                                                            <option data="07" value="Córdoba">Córdoba</option>
+                                                            <option data="08" value="Corrientes">Corrientes</option>
+                                                            <option data="09" value="Entre Ríos">Entre Ríos</option>
+                                                            <option data="10" value="Formosa">Formosa</option>
+                                                            <option data="11" value="Jujuy">Jujuy</option>
+                                                            <option data="12" value="La Pampa">La Pampa</option>
+                                                            <option data="13" value="La Rioja">La Rioja</option>
+                                                            <option data="14" value="Mendoza">Mendoza</option>
+                                                            <option data="15" value="Misiones">Misiones</option>
+                                                            <option data="16" value="Neuquén">Neuquén</option>
+                                                            <option data="17" value="Río Negro">Río Negro</option>
+                                                            <option data="18" value="Salta">Salta</option>
+                                                            <option data="19" value="San Juan">San Juan</option>
+                                                            <option data="20" value="San Luis">San Luis</option>
+                                                            <option data="21" value="Santa Cruz">Santa Cruz</option>
+                                                            <option data="22" value="Santa Fé">Santa Fé</option>
+                                                            <option data="23" value="Santiago del Estero">Santiago del Estero</option>
+                                                            <option data="24" value="Tierra del Fuego">Tierra del Fuego</option>
+                                                            <option data="25" value="Tucumán">Tucumán</option>
+                                                        </select>
+
+                                                        <input type="text" id="calle" class="form-input" placeholder="Calle">
+                                                        <input type="text" id="calleNro" class="form-input" placeholder="N°">
+                                                        <input type="text" id="piso" class="form-input" placeholder="Piso, Unidad">
+                                                        <input type="text" id="ciudad" class="form-input" placeholder="Ciudad">
+                                                        <input type="text" id="codigoPostal" class="form-input" placeholder="Código Postal">    
+                                                    </div>
+                                                </div>
+                                                <div class="bloque">
+                                                    <input type="radio" class="opcionDeEntrega" id="retiroLocal" name="entregaPedido" value="retiroLocal" />
+                                                    <label for="retiroLocal">Retiro en local</label>
+                                                    
+                                                    <div class="contenido">
+                                                        <h3>DATOS DE LA PERSONA QUE RETIRARÁ EL PEDIDO</h3>
+                                                        <input type="text" id="nombre" class="form-input" placeholder="Nombre">
+                                                        <input type="text" id="apellido" class="form-input" placeholder="Apellido">
+                                                        
+                                                        <h5>Dirección</h5>
+                                                        <p>Avenida Siempreviva 123, Capital Federal, Ciudad de Buenos Aires, Argentina</p>
+                                                        <p>Una vez que realices tu compra podes pasar a retirar EN EL MOMENTO!</p>
+                                                        <p>Los retiros por el local son de Lunes a Viernes de 14 a 20 hs</p>
+                                                    </div>
+                                                </div> 
+                                            </div>
+                            
+                                            <button class="volverCarrito">Volver al carrito</button>
+                                            <button class="continuarSeccionTres">Continuar</button>`
+
+                form.append(datosSeccionDos)
+
+                let volverCarrito = document.querySelector(".volverCarrito")
+                volverCarrito.addEventListener("click", () => {
+                    verCarrito()
+                    procesoDeCompra()
+                    datosSeccionDos.innerHTML = ""
+                })
+
+                const bloque = document.querySelectorAll('.bloque')
+                const opcionDeEntrega = document.querySelectorAll('.opcionDeEntrega')
+    
+
+                opcionDeEntrega.forEach( ( cadaOpcion , i )=>{
+                    opcionDeEntrega[i].addEventListener('click', ()=>{
+                        bloque.forEach( ( cadaBloque , i )=>{
+                            bloque[i].classList.remove('activo')
+                        })
+                        bloque[i].classList.add('activo')
+                    })
+                })
+    
+
+                let continuarSeccionTres = document.querySelector(".continuarSeccionTres")
+
+                continuarSeccionTres.addEventListener("click", () => {
+                    datosSeccionDos.innerHTML = ""
+
+                    let datosSeccionTres = document.createElement("div")
+                    datosSeccionTres.className = "seccionTres"
+                    datosSeccionTres.innerHTML = `<div>
+                                                <h3>OPCIONES DE PAGO</h3>
+                                                <input type="radio" id="mercadoPago" name="mercadoPago" value="mercadoPago" />
+                                                <label for="mercadoPago">MercadoPago</label>
+                                                <p>Te redireccionaremos al sitio seguro de MercadoPago para que finalices tu compra. Podrás pagar con tarjetas de crédito y en efectivo en puntos de pago.</p>
+                                            </div>
+                                            <div>
+                                                <h4>COMENTARIOS ADICIONALES</h4>
+                                                <textarea></textarea>
+                                            </div>
+                                            <button class="volverCarrito">Volver al carrito</button>
+                                            <button class="finalizarCompra">Finalizar Compra</button>`
+                    
+                    form.append(datosSeccionTres)
+
+                    let volverCarrito = document.querySelector(".volverCarrito")
+                    volverCarrito.addEventListener("click", () => {
+                        verCarrito()
+                        procesoDeCompra()
+                        datosSeccionTres.innerHTML = ""
+                    })
+
+                    let finalizarCompra = document.querySelector(".finalizarCompra")
+                    finalizarCompra.addEventListener("click", () => {
+                                    localStorage.clear()
+                                    datosSeccionTres.innerHTML = ""
+                                    alert("Tu compra ha sido realizada con éxito!")
+
+                    })
+                })
+            })
+        })
+
+        
+    }
 }
 
+procesoDeCompra()

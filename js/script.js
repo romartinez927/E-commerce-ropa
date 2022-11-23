@@ -205,13 +205,11 @@ categoriaBotones.forEach(boton => {
 
         if (e.currentTarget.id != "todos") {
             const productoCategoria = productos.find(producto => producto.categoria === e.currentTarget.id)
-            console.log("funciona?")
             tituloPrincipal.innerText = productoCategoria.categoria;
             const productosBoton = productos.filter(producto => producto.categoria === e.currentTarget.id)
             cargarProductos(productosBoton)
         } else {
             cargarProductos(productos)
-            console.log("oraaaaa")
             tituloPrincipal.innerText = "Todos los productos"
         }
     })
