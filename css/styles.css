@@ -223,3 +223,7 @@ nav ul li a {
   .acordeon .bloque.activo .contenido {
     height: 13rem;
   }
+
+  #formIndex {
+    display: none
+  }

@@ -4,7 +4,6 @@ const montoTotalCompra = document.getElementById("montoTotal")
 const contenedorCarritoVacio = document.getElementById("carritoVacio")
 const formularioCompra = document.querySelector("#formularioCompra")
 const carritoHeader = document.querySelector("#carritoHeader")
-const form = document.querySelector("#form")
 
 
 //Función para visualizar los productos que se encuentran en el carrito
@@ -111,20 +110,20 @@ const procesoDeCompra = () => {
 
             let datosDelUsuario = document.createElement("div")
             datosDelUsuario.className = "SeccionUno"
-            datosDelUsuario.innerHTML = `<div class="form-header">
-                                            <h3>DATOS DE CONTACTO</h1>
-                                        </div>
-                                        <div>
-                                            <label for="email" class="form-label">Ingresa tu email para continuar la compra</label>
-                                            <input type="text" id="email" class="form-input" placeholder="Email">
-                                            
-                                            <button class="volverCarrito">Volver al carrito</button>
-                                            <button class="continuarSeccionDos">Continuar</button>
-                                        </div>`
+            datosDelUsuario.innerHTML = `<form method="post" class="form" id="form">
+                                            <div class="form-header">
+                                                <h3>DATOS DE CONTACTO</h1>
+                                            </div>
+                                            <div>
+                                                <label for="email" class="form-label">Ingresa tu email para continuar la compra</label>
+                                                <input type="email" id="email" class="form-input" placeholder="Email" required>
+                                                
+                                                <button class="volverCarrito">Volver al carrito</button>
+                                                <button type="submit" value="submit" class="continuarSeccionDos">Continuar</button>
+                                            </div>
+                                        </form>`
 
-            form.append(datosDelUsuario)
-
-            
+            formularioCompra.append(datosDelUsuario)
 
 
 
@@ -139,8 +138,9 @@ const procesoDeCompra = () => {
             continuarSeccionDos.addEventListener("click", () => {
                 let email = document.querySelector("#email").value
                 localStorage.setItem("emailUsuario", email) 
-                
-                datosDelUsuario.innerHTML = ""
+
+
+                // datosDelUsuario.innerHTML = ""
 
                 let datosSeccionDos = document.createElement("div")
                 datosSeccionDos.className = "seccionDos"
@@ -149,8 +149,9 @@ const procesoDeCompra = () => {
                                             </div>
                                             <div class="acordeon">
                                                 <div class="bloque activo">
-                                                    <input type="radio" id="enviarPedido" class="opcionDeEntrega" name="entregaPedido" value="enviarPedido" />
                                                     <label for="enviarPedido">Enviar mi pedido</label>
+                                                    <input type="radio" id="enviarPedido" class="opcionDeEntrega" name="entregaPedido" value="enviarPedido" required="required" />
+                                   
                                                     <div class="contenido">
                                                         <h3>DOMICILIO DE ENTREGA</h3>
                                                         <p>Datos de quien recibe</p>
@@ -160,7 +161,7 @@ const procesoDeCompra = () => {
 
                                                         <p>Domicilio de entrega</p>
                                                         <input type="text" id="pais" class="form-input" placeholder="Argentina">
-                                                        <select name="localidad">
+                                                        <select id="localidad" name="localidad">
                                                             <option data="01" value="Buenos Aires">Buenos Aires</option>
                                                             <option data="02" value="Gran Buenos Aires">Gran Buenos Aires</option>
                                                             <option data="03" value="Ciudad Autónoma de Buenos Aires">Ciudad Autónoma de Buenos Aires</option>
@@ -189,8 +190,7 @@ const procesoDeCompra = () => {
                                                         </select>
 
                                                         <input type="text" id="calle" class="form-input" placeholder="Calle">
-                                                        <input type="text" id="calleNro" class="form-input" placeholder="N°">
-                                                        <input type="text" id="piso" class="form-input" placeholder="Piso, Unidad">
+                                                        <input type="text" id="calleNro" class="form-input" placeholder="n°">
                                                         <input type="text" id="ciudad" class="form-input" placeholder="Ciudad">
                                                         <input type="text" id="codigoPostal" class="form-input" placeholder="Código Postal">    
                                                     </div>
@@ -215,7 +215,7 @@ const procesoDeCompra = () => {
                                             <button class="volverCarrito">Volver al carrito</button>
                                             <button class="continuarSeccionTres">Continuar</button>`
 
-                form.append(datosSeccionDos)
+                formularioCompra.append(datosSeccionDos)
 
                 let volverCarrito = document.querySelector(".volverCarrito")
                 volverCarrito.addEventListener("click", () => {
@@ -241,14 +241,35 @@ const procesoDeCompra = () => {
                 let continuarSeccionTres = document.querySelector(".continuarSeccionTres")
 
                 continuarSeccionTres.addEventListener("click", () => {
+                    
+                    let name = document.querySelector("#name").value
+                    localStorage.setItem("namelUsuario", name) 
+
+                    let lastName = document.querySelector("#lastName").value
+                    localStorage.setItem("lastNameUsuario", lastName)
+
+                    let tel = document.querySelector("#telefono").value
+                    localStorage.setItem("telefonoUsuario", tel)
+
+                    let localidad = document.querySelector("#localidad").value
+                    localStorage.setItem("localidadUsuario", localidad)
+
+                    let calle = document.querySelector("#calle").value
+                    let calleNro = document.querySelector("#calleNro").value
+                    let ciudad = document.querySelector("#ciudad").value
+                    let codigoPostal = document.querySelector("#codigoPostal").value
+                    
+                    let domicilio = `Domicilio: ${calle} ${calleNro}, ${ciudad}, CP: ${codigoPostal}`
+                    localStorage.setItem("domicilioUsuario", domicilio)
+            
                     datosSeccionDos.innerHTML = ""
 
                     let datosSeccionTres = document.createElement("div")
                     datosSeccionTres.className = "seccionTres"
                     datosSeccionTres.innerHTML = `<div>
                                                 <h3>OPCIONES DE PAGO</h3>
-                                                <input type="radio" id="mercadoPago" name="mercadoPago" value="mercadoPago" />
                                                 <label for="mercadoPago">MercadoPago</label>
+                                                <input type="radio" id="mercadoPago" name="mercadoPago" value="mercadoPago" required="required" />
                                                 <p>Te redireccionaremos al sitio seguro de MercadoPago para que finalices tu compra. Podrás pagar con tarjetas de crédito y en efectivo en puntos de pago.</p>
                                             </div>
                                             <div>
@@ -258,7 +279,7 @@ const procesoDeCompra = () => {
                                             <button class="volverCarrito">Volver al carrito</button>
                                             <button class="finalizarCompra">Finalizar Compra</button>`
                     
-                    form.append(datosSeccionTres)
+                    formularioCompra.append(datosSeccionTres)
 
                     let volverCarrito = document.querySelector(".volverCarrito")
                     volverCarrito.addEventListener("click", () => {
